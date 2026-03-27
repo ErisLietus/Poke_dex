@@ -1,25 +1,22 @@
 import { createInterface } from "readline"
+import { State } from "./state.js";
 
 export function cleanInput(input: string): string[] {
     const array = input.toLowerCase().trim().split(" ").filter((word) => word !== "")
     return array
 }
-export function startREPL() {
-const rl = createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: "Pokedex > "
-});
+export function startREPL(state: State) {
 
-rl.prompt();
+state.readline.prompt()
 
-rl.on("line", (input) => {
+state.readline.on("line", (input) => {
     let array = cleanInput(input)
-    if (array.length === 0){
-        rl.prompt()
+        const command = array[0];
+    if (state.commands[command] === undefined){
+        console.log(`unknown command`)
     } else{
-        console.log(`Your command was: ${array[0]}`)
+        state.commands[command].callback(state)
     }
-    rl.prompt()
+    state.readline.prompt()
     
 });}
