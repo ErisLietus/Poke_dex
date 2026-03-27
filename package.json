@@ -1,0 +1,14 @@
+{
+    "type": "module",
+    "scripts": {
+        "build": "npx tsc",
+        "start": "node dist/main.js",
+        "dev": "npx tsc && node dist/main.js",
+        "test": "vitest --run"
+    },
+    "devDependencies": {
+        "@types/node": "^25.5.0",
+        "typescript": "^6.0.2",
+        "vitest": "^4.1.2"
+    }
+}
