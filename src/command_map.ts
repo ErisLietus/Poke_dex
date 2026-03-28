@@ -1,7 +1,7 @@
 import { State } from "./state.js";
 
 export async function commandMap(state: State): Promise<void>{
-    const resp = await state.pokeAPI.fetchLocations(state.nextLocationsURL)
+    const resp = await state.pokeAPI.fetchLocations(state.nextLocationsURL || undefined)
     state.nextLocationsURL = resp.next
     state.prevLocationsURL = resp.previous ?? ""
     for (let result of resp.results){
@@ -14,7 +14,7 @@ export async function commandMapb(state: State): Promise<void>{
         console.log("You're on the first page")
         return
     }
-    const resp = await state.pokeAPI.fetchLocations(state.prevLocationsURL)
+    const resp = await state.pokeAPI.fetchLocations(state.prevLocationsURL || undefined)
     state.nextLocationsURL = resp.next
     state.prevLocationsURL = resp.previous ?? ""
     for (let result of resp.results){

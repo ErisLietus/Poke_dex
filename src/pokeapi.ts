@@ -5,7 +5,7 @@ export class PokeAPI {
 
   async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
     try {
-    const url = pageURL ?? "https://pokeapi.co/api/v2/location-area"
+    const url = pageURL || "https://pokeapi.co/api/v2/location-area"
     const response = await fetch(url)
     if(!response.ok){
         throw new Error(`${response.status} ${response.statusText}`)
