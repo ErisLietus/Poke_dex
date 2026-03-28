@@ -5,17 +5,21 @@ export function cleanInput(input: string): string[] {
     const array = input.toLowerCase().trim().split(" ").filter((word) => word !== "")
     return array
 }
-export function startREPL(state: State) {
+export async function startREPL(state: State) {
 
 state.readline.prompt()
 
-state.readline.on("line", (input) => {
+state.readline.on("line", async (input) => {
     let array = cleanInput(input)
         const command = array[0];
     if (state.commands[command] === undefined){
         console.log(`unknown command`)
     } else{
-        state.commands[command].callback(state)
+        try {
+            await state.commands[command].callback(state)
+        }catch (e) {
+            console.log(`Error: ${(e as Error).message}`)
+        }
     }
     state.readline.prompt()
     
