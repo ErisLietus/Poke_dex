@@ -31,12 +31,19 @@ export class PokeAPI {
   async fetchLocation(locationName: string): Promise<Location> {
     try {
         const url = `${PokeAPI.baseURL}/location-area/${locationName}`
+        const cashed = this.#cache.get<Location>(url);
+        if (cashed){
+          return cashed
+        }
+        else{
         const response = await fetch(url)
         if(!response.ok){
             throw new Error(`${response.status} ${response.statusText}`)
         }
-        return response.json()
-    }
+        const data =  response.json()
+        this.#cache.add(url, data)
+        return data
+    }}
     catch (e) {
         throw new Error(`Error fetching locations: ${(e as Error).message}`)
     }
