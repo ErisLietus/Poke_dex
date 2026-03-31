@@ -45,7 +45,27 @@ export class PokeAPI {
         return data
     }}
     catch (e) {
-        throw new Error(`Error fetching locations: ${(e as Error).message}`)
+        throw new Error(`Error fetching location: ${(e as Error).message}`)
+    }
+  }
+  async fetchPokemon(pokemon: string): Promise<Pokemon> {
+    try {
+        const url = `${PokeAPI.baseURL}/pokemon/${pokemon}`
+        const cashed = this.#cache.get<Pokemon>(url);
+        if (cashed){
+          return cashed
+        }
+        else{
+        const response = await fetch(url)
+        if(!response.ok){
+            throw new Error(`${response.status} ${response.statusText}`)
+        }
+        const data = await  response.json()
+        this.#cache.add(url, data)
+        return data
+    }}
+    catch (e) {
+        throw new Error(`Error fetching Pokemon: ${(e as Error).message}`)
     }
   }
 }
@@ -112,8 +132,21 @@ export interface PokemonEncounter {
 
 export interface Pokemon {
   name: string
-  url: string
-}
+  base_experience: number
+  height: number
+  weight: number
+  stats: {
+  base_stat: number;
+  stat: {
+    name: string;
+  };}[];
+  types: {
+  type: {
+    name: string;
+  };
+}[];}
+  
+
 
 export interface VersionDetail2 {
   encounter_details: EncounterDetail[]
