@@ -16,7 +16,7 @@ state.readline.on("line", async (input) => {
         console.log(`unknown command`)
     } else{
         try {
-            await state.commands[command].callback(state)
+            await state.commands[command].callback(state, ...array.slice(1))
         }catch (e) {
             console.log(`Error: ${(e as Error).message}`)
         }

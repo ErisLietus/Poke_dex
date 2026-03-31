@@ -40,7 +40,7 @@ export class PokeAPI {
         if(!response.ok){
             throw new Error(`${response.status} ${response.statusText}`)
         }
-        const data =  response.json()
+        const data = await  response.json()
         this.#cache.add(url, data)
         return data
     }}
